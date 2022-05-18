@@ -12,6 +12,9 @@ import numpy as np
 import cv2
 import time
 
+STREAM_FROM = 'vid.mp4'
+
+
 def convert_to_twitch_frame(recieved_frame, resize=True, bgr_to_rgb=True):
     if resize:
         width = int(640)
@@ -42,7 +45,7 @@ if __name__ == "__main__":
             verbose=True,
             enable_audio=False) as videostream:
 
-        cap = cv2.VideoCapture('vid.mp4')
+        cap = cv2.VideoCapture(STREAM_FROM)
 
         while True:
             if videostream.get_video_frame_buffer_state() < 30:
