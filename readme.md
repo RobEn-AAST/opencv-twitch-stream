@@ -1,9 +1,10 @@
 # setup process
 
 ### get you stream key from here
+
 http://www.twitch.tv/youruser/dashboard/streamkey
 
-### Dependencies  
+### Dependencies
 
 ```bash
 sudo pip install python-twitch-stream
@@ -18,10 +19,22 @@ ffmpeg -version
 ```bash
 python stream.py -s <your stream key>
 ```
-## How to use it
-```python
-""" use 0 or 1 to stream from a camera """
-STREAM_FROM = 'vid.mp4' # change this vid path
+
+## Docker setup
+
+#### docker-compose.yml file
+
+```docker
+# docker-compose.yml
+services:
+  streaming-twitch:
+    build: .
+    command: python3 -u stream.py -s <your stream key>
+    ports:
+      - "1935:1935"
+     # - "5000:5000/udp"
+     # - "5100:5100/udp"
+    volumes:
+      - ./codes:/twitch
+
 ```
-
-
