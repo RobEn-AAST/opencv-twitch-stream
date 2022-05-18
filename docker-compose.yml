@@ -1,0 +1,9 @@
+services:
+  streaming-twitch:
+    build: .
+    command: python3 -u stream.py -s live_795390432_y38JvxNNEk9vYsbIsbVdEL0CLVO8QC
+    ports:
+      - "1935:1935"
+      - "5000:5000/udp"
+    volumes:
+      - ./codes:/twitch
