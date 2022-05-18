@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import time
 from rovlib.cameras import RovCam
+from scaleImage import scale_now
 
 
 STREAM_FROM = 0
@@ -24,7 +25,9 @@ def convert_to_twitch_frame(recieved_frame, resize=True, bgr_to_rgb=True):
 
 
 if __name__ == "__main__":
-    cam = RovCam(RovCam.FRONT)
+    cam_front = RovCam(RovCam.FRONT)
+    cam_arm = RovCam(RovCam.ARM)
+    
     parser = argparse.ArgumentParser(description=__doc__)
     required = parser.add_argument_group('required arguments')
     required.add_argument('-s', '--streamkey',
@@ -42,5 +45,7 @@ if __name__ == "__main__":
 
         while True:
             if videostream.get_video_frame_buffer_state() < 30:
-                frame = cam.read()
-                videostream.send_video_frame(convert_to_twitch_frame(frame))
+                frame1 = cam_front.read()
+                frame2 = cam_arm.read()
+                out_frame = scale_now(frame1, frame2)
+                videostream.send_video_frame(convert_to_twitch_frame(out_frame))

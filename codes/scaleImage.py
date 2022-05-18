@@ -2,10 +2,6 @@ import cv2
 import numpy as np
 
 IMG_RES = (640, 480)
-
-img_tst1 = cv2.imread('3.jpg')
-img_tst2 = cv2.imread('2.jpg')
-
 def scale_now(img1,img2):
     img1 = cv2.resize(img1, IMG_RES)
     img2 = cv2.resize(img2, (int(IMG_RES[0] / 2.5), int(IMG_RES[1] / 2.5)))
@@ -25,10 +21,4 @@ def scale_now(img1,img2):
     dst = cv2.add(img1_bg, img2_fg)
     img1[row_main-rows: row_main, col_main-cols: col_main] = dst
 
-    cv2.imshow('res', img1)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
     return img1
-
-
-scale_now(img_tst1, img_tst2)
