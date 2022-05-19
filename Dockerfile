@@ -16,6 +16,8 @@ RUN pip3 install python-twitch-stream
 
 RUN apt install ffmpeg -y
 
+RUN pip3 install keyboard
+
 RUN pip3 install rovlib
 
 WORKDIR /twitch

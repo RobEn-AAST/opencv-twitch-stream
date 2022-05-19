@@ -5,9 +5,27 @@ import cv2
 import time
 from rovlib.cameras import RovCam
 from scaleImage import scale_now
+import keyboard
 
 
-STREAM_FROM = 0
+PAUSE_STREAM = True
+
+
+on_wait_cap = cv2.VideoCapture('vid.mp4')
+
+#         while True:
+#             if videostream.get_video_frame_buffer_state() < 30:
+                
+                
+#                 if ret:
+#                      videostream.send_video_frame(convert_to_twitch_frame(frame))
+#                 else:
+#                     cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+#                     continue
+
+
+
+keyboard.on_press_key("s", lambda _: PAUSE_STREAM != PAUSE_STREAM)
 
 
 def convert_to_twitch_frame(recieved_frame, resize=True, bgr_to_rgb=True):
@@ -45,7 +63,16 @@ if __name__ == "__main__":
 
         while True:
             if videostream.get_video_frame_buffer_state() < 30:
-                frame1 = cam_front.read()
-                frame2 = cam_arm.read()
-                out_frame = scale_now(frame1, frame2)
+                out_frame = None
+                if PAUSE_STREAM:
+                    ret, out_frame = on_wait_cap.read() 
+                    if not ret:
+                        on_wait_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                        continue
+                else:
+                    frame1 = cam_front.read()
+                    frame2 = cam_arm.read()
+                    out_frame = scale_now(frame1, frame2)
+                
                 videostream.send_video_frame(convert_to_twitch_frame(out_frame))
+
